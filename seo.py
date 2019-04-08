@@ -6,10 +6,11 @@ import requests
 from bs4 import BeautifulSoup
 
 
-num = 0
+#num = 0
+programme_list = []
 
 def spider_csdn(question):
-    global num
+    #global num
     request_url = "https://so.csdn.net/so/search/s.do?p=&q={0}&t=&domain=&o=&s=&u=&l=&f=".format(question)
     header = {
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
@@ -29,11 +30,12 @@ def spider_csdn(question):
     dl = soup.find_all('dl', class_='search-list J_search')
     for dl in dl:
         if dl.span.get_text().encode('utf-8') == "博客" or dl.span.get_text().encode('utf-8') == "问答":
-            print num , '\033[1;32m' + dl.a.get_text() + '\033[0m\n- [\033[1;31m' + dl.a['href'] + '\033[0m]'
-            num += 1
+            programme_list.append(dl.a)
+            #print num , '\033[1;32m' + dl.a.get_text() + '\033[0m\n- [\033[1;31m' + dl.a['href'] + '\033[0m]'
+            #num += 1
 
 def spider_baidu(question):
-    global num
+    #global num
     request_url = "https://www.baidu.com/s?ie=utf-8&f=3&rsv_bp=1&rsv_idx=1&tn=baidu&wd={0}&rsv_pq=f58cf5d100008816&rsv_t=95ac5g6jee0WeJYqjnGAt95WVwtYncO9YdHkgIMPLRD5WSk3BEzTtI1WM9c&rqlang=cn&rsv_enter=1&rsv_sug3=3&rsv_sug1=3&rsv_sug7=101&rsv_sug2=0&prefixsug={1}&rsp=3&inputT=2764&rsv_sug4=11740&rsv_sug=1".format(question, question)
     header = {
     'Accept': '*/*',
@@ -56,8 +58,9 @@ def spider_baidu(question):
     soup = BeautifulSoup(doc, 'html.parser')
     div = soup.find_all('div', class_='result c-container')
     for div in div:
-        print num , '\033[1;32m' + div.a.get_text() + '\033[0m\n- [\033[1;31m' + div.a['href'] + '\033[0m]'
-        num += 1
+        programme_list.append(div.a)
+        #print num , '\033[1;32m' + div.a.get_text() + '\033[0m\n- [\033[1;31m' + div.a['href'] + '\033[0m]'
+        #num += 1
 
 # 返回语言
 def get_language(file_path):
@@ -103,6 +106,9 @@ try:
                 error = raw_input("请输入报错信息：")
             spider_baidu(error)
             spider_csdn(error)
+    for i, x in enumerate(programme_list):
+        print i+1, '\033[1;32m' + x.get_text() + '\033[0m\n- [ \033[1;31m' + x['href'] + '\033[0m ]'
+    program_num = raw_input("请输入解决方案序号：")
 except NameError:
     pass
     #print "seo has made a mistake."

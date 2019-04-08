@@ -22,12 +22,15 @@ ch.expect('Password:')
 ch.sendline('密码')
 '''
 '''
-p = subprocess.Popen('python /home/fty/workspace/开源社区/rebound-master/a.py',shell=True,stdout=subprocess.PIPE)  
-out,err = p.communicate()  
+p = subprocess.Popen('python /home/fty/workspace/开源社区/rebound-master/a.py',shell=True,stdout=subprocess.PIPE)
+out,err = p.communicate()
 print out
 print err
 for line in out.splitlines():  
     print line  '''
-
+'''
 output = commands.getstatusoutput('gcc /home/fty/workspace/开源社区/rebound-master/hello.c -o hello')  
-print  type(output[0])
+print  type(output[0])'''
+your_list = ['a', 'b', 'q', 'e', ]
+print [i for i, x in enumerate(your_list)]
+print [x for i, x in enumerate(your_list)]
