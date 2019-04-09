@@ -1,6 +1,6 @@
 # coding:utf-8
 
-import os
+import os, sys
 import subprocess
 import commands
 #os.system()
@@ -31,6 +31,6 @@ for line in out.splitlines():
 '''
 output = commands.getstatusoutput('gcc /home/fty/workspace/开源社区/rebound-master/hello.c -o hello')  
 print  type(output[0])'''
-your_list = ['a', 'b', 'q', 'e', ]
-print [i for i, x in enumerate(your_list)]
-print [x for i, x in enumerate(your_list)]
+file_path = sys.argv[1].lower()
+output = commands.getstatusoutput("gcc {0} -o {1}".format(file_path, os.path.splitext(file_path)[0]))
+os.system(os.path.splitext(file_path)[0])

@@ -114,6 +114,7 @@ def get_language(file_path):
             os.system(os.path.splitext(file_path)[0])
         return output
     else:
+        print "Unknown language"
         return '' # Unknown language
 
 
