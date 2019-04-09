@@ -13,4 +13,6 @@ seo是一个终端命令行工具，由于在编译文件报错时为你提供�
 
 ## 效果图
 
+<div>
 <img src="seo.gif" width="70%" height="70%" />
+</div>
