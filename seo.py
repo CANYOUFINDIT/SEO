@@ -4,7 +4,7 @@
 import os,sys, commands
 import requests
 from bs4 import BeautifulSoup
-
+import re
 
 #num = 0
 programme_list = []
@@ -29,10 +29,11 @@ def spider_csdn(question):
     soup = BeautifulSoup(doc, 'html.parser')
     dl = soup.find_all('dl', class_='search-list J_search')
     for dl in dl:
-        if dl.span.get_text().encode('utf-8') == "博客" or dl.span.get_text().encode('utf-8') == "问答":
+        if dl.span.get_text().encode('utf-8') == "博客": #or dl.span.get_text().encode('utf-8') == "问答"
             programme_list.append(dl.a)
             #print num , '\033[1;32m' + dl.a.get_text() + '\033[0m\n- [\033[1;31m' + dl.a['href'] + '\033[0m]'
             #num += 1
+
 
 def spider_baidu(question):
     #global num
@@ -62,13 +63,38 @@ def spider_baidu(question):
         #print num , '\033[1;32m' + div.a.get_text() + '\033[0m\n- [\033[1;31m' + div.a['href'] + '\033[0m]'
         #num += 1
 
+
+def spider_csdn_blog(url):
+    header = {
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+        'accept-encoding': 'gzip, deflate, br',
+        'accept-language': 'zh-CN,zh;q=0.9',
+        'cache-control': 'max-age=0',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
+    }
+
+    s = requests.Session()
+    r = s.get(url, headers=header)
+    r.encoding = 'utf-8'
+    doc = r.text.encode("utf-8")
+    soup = BeautifulSoup(doc, 'html.parser')
+    print "--------------------------------------------------------------------------"
+    # 标题
+    title = soup.find('h1', class_='title-article')
+    print '\033[1;34m' + title.get_text() + '\033[0m\n- [ \033[1;33m' + url + '\033[0m ]'
+    time = soup.find('span', class_='time')
+    print time.get_text()
+    body = soup.find('div', id='content_views')
+    print body.get_text()
+    print "--------------------------------------------------------------------------"
+
+
 # 返回语言
 def get_language(file_path):
 
     if file_path.endswith(".py"):
         output = commands.getstatusoutput('python {}'.format(file_path))
-        if output[0] == 0:
-            print output[1]
+        print output[1]
         #execution = os.popen('python {}'.format(file_path)).read().strip()  #返回输出结果
         return output
     elif file_path.endswith(".js"):
@@ -90,25 +116,42 @@ def get_language(file_path):
     else:
         return '' # Unknown language
 
+
+def process():      
+    for i, x in enumerate(programme_list):
+        print i+1, '\033[1;32m' + x.get_text() + '\033[0m\n'
+        #print '- ', x['href']
+        #print
+    program_num = raw_input("请输入解决方案序号/退出(enter) ")
+    #print programme_list[i-1]['href']
+    if program_num == "e" or program_num == "":
+        return
+    else:
+        spider_csdn_blog(programme_list[int(program_num)-1]['href'])
+        #answer3 = raw_input("继续(c)/退出(other keys) ")
+        #print ''
+        #if answer3 == 'c' or answer3 == 'C':
+        process()
+        return
+
+
 if len(sys.argv) == 1:
     print "文件路径为空！"
 else:
     output = get_language(sys.argv[1].lower())
 
-try:
-    if output[0] == 256:
-        error = output[1]
-        print error
-        answer1 = raw_input("\n是否开启面向搜索引擎编程? (Y/n) ")
-        if answer1 == "Y" or answer1 == "y" or answer1 == "yes":
-            answer2 = raw_input("自动输入报错信息? (Y/n) ")
-            if answer2 != "Y" and answer2 != "y" and answer2 != "yes":
-                error = raw_input("请输入报错信息：")
-            spider_baidu(error)
-            spider_csdn(error)
-    for i, x in enumerate(programme_list):
-        print i+1, '\033[1;32m' + x.get_text() + '\033[0m\n- [ \033[1;31m' + x['href'] + '\033[0m ]'
-    program_num = raw_input("请输入解决方案序号：")
-except NameError:
-    pass
-    #print "seo has made a mistake."
+#try:
+if output[0] == 256:
+    error = output[1]
+    n_list = [i.start() for i in re.finditer('\n', error)]
+    error = error[n_list[-1]:].strip('\n')
+    answer1 = raw_input("\n是否开启面向搜索引擎编程? (Y/n) ")
+    if answer1 == "Y" or answer1 == "y" or answer1 == "yes":
+        answer2 = raw_input("自动填充报错信息? (Y/n) ")
+        if answer2 != "Y" and answer2 != "y" and answer2 != "yes":
+            error = raw_input("请输入报错信息：")
+        #spider_baidu(error)
+        spider_csdn(error)
+        process()
+#except:
+#    print "?"

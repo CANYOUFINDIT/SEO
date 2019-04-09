@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 
-url = 'https://blog.csdn.net/Cris_0525/article/details/88545190'
+url = 'https://blog.csdn.net/feeltouch/article/details/49404671'
 
 header = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
@@ -18,9 +18,19 @@ s = requests.Session()
 r = s.get(url, headers=header)
 r.encoding = 'utf-8'
 doc = r.text.encode("utf-8")
-
-soup = BeautifulSoup(doc, 'html.parser')
-body = soup.find('div', class_='blog-content-box')
-
+#print doc
+'''
 with open(os.path.abspath('SEO/spider.html'), 'w') as f1:
-    f1.write(str(body))
+    f1.write(str(doc))
+'''
+soup = BeautifulSoup(doc, 'html.parser')
+# 标题
+title = soup.find('h1', class_='title-article')
+print title.get_text()
+
+time = soup.find('span', class_='time')
+print time.get_text()
+
+body = soup.find('div', id='content_views')
+print body.get_text()
+
