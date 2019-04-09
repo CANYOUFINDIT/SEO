@@ -117,15 +117,22 @@ def get_language(file_path):
         return '' # Unknown language
 
 
-def process():      
+def answer_list():
     for i, x in enumerate(programme_list):
         print i+1, '\033[1;32m' + x.get_text() + '\033[0m\n'
+
+def process():      
+    #for i, x in enumerate(programme_list):
+        #print i+1, '\033[1;32m' + x.get_text() + '\033[0m\n'
         #print '- ', x['href']
         #print
-    program_num = raw_input("请输入解决方案序号/退出(enter) ")
+    program_num = raw_input("请输入解决方案序号 [方案列表(l)/退出(enter)] ")
     #print programme_list[i-1]['href']
     if program_num == "e" or program_num == "":
         return
+    elif program_num == "l" or program_num == "L":
+        answer_list()
+        process()
     else:
         spider_csdn_blog(programme_list[int(program_num)-1]['href'])
         #answer3 = raw_input("继续(c)/退出(other keys) ")
@@ -135,23 +142,24 @@ def process():
         return
 
 
-if len(sys.argv) == 1:
-    print "文件路径为空！"
-else:
-    output = get_language(sys.argv[1].lower())
+try:
+    if len(sys.argv) == 1:
+        print "文件路径为空！"
+    else:
+        output = get_language(sys.argv[1].lower())
 
-#try:
-if output[0] == 256:
-    error = output[1]
-    n_list = [i.start() for i in re.finditer('\n', error)]
-    error = error[n_list[-1]:].strip('\n')
-    answer1 = raw_input("\n是否开启面向搜索引擎编程? (Y/n) ")
-    if answer1 == "Y" or answer1 == "y" or answer1 == "yes":
-        answer2 = raw_input("自动填充报错信息? (Y/n) ")
-        if answer2 != "Y" and answer2 != "y" and answer2 != "yes":
-            error = raw_input("请输入报错信息：")
-        #spider_baidu(error)
-        spider_csdn(error)
-        process()
-#except:
-#    print "?"
+    if output[0] == 256:
+        error = output[1]
+        n_list = [i.start() for i in re.finditer('\n', error)]
+        error = error[n_list[-1]:].strip('\n')
+        answer1 = raw_input("\n是否开启面向搜索引擎编程? (Y/n) ")
+        if answer1 == "Y" or answer1 == "y" or answer1 == "yes":
+            answer2 = raw_input("自动填充报错信息? (Y/n) ")
+            if answer2 != "Y" and answer2 != "y" and answer2 != "yes":
+                error = raw_input("请输入报错信息：")
+            #spider_baidu(error)
+            spider_csdn(error)
+            answer_list()
+            process()
+except:
+    pass
