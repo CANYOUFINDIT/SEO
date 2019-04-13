@@ -9,12 +9,6 @@ question = raw_input("please enter your question:\n")
 
 request_url = "https://so.csdn.net/so/search/s.do?p=&q={0}&t=&domain=&o=&s=&u=&l=&f=".format(question)
 header = {
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
-    'accept-encoding': 'gzip, deflate, br',
-    'accept-language': 'zh-CN,zh;q=0.9',
-    'cache-control': 'max-age=0',
-    'cookie': 'TY_SESSION_ID=130ea2cc-c58f-4bfc-ae2f-d63981aaa980; JSESSIONID=9FA17B31B7231E11B3E40300F97854A5; uuid_tt_dd=10_30763140180-1543833936884-183079; dc_session_id=10_1543833936884.782145; ARK_ID=JS21afbef72ea23fb8ed38735da13834cf21af; UM_distinctid=167ea9b4f1d1e0-0fd55a57dee86f-18211c0a-1fa400-167ea9b4f1ff2; Hm_ct_6bcd52f51e9b3dce32bec4a3997715ac=1788*1*PC_VC!6525*1*10_30763140180-1543833936884-183079; SESSION=c38de3f9-a82c-44e3-9fda-2985ebb5e51f; __yadk_uid=6YUj8tzELm0cgItzMcbIFJpJzJFfmqYt; firstDie=1; Hm_lvt_6bcd52f51e9b3dce32bec4a3997715ac=1554362591,1554364502,1554364556,1554364586; c-login-auto=3; dc_tos=ppfg5g; Hm_lpvt_6bcd52f51e9b3dce32bec4a3997715ac=1554365573',
-    'upgrade-insecure-requests': '1',
     'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36',
 }
 
