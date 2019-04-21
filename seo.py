@@ -122,7 +122,7 @@ def get_language(file_path):
     elif file_path.endswith(".c"):
         output = commands.getstatusoutput("gcc {0} -o {1}".format(file_path, head))  
         if output[0] == 0:
-            os.system(head)
+            os.system('./'+head)
         return output, 'C'
     else:
         print "Unknown language"
@@ -164,7 +164,8 @@ def main():
         if output[0] != 0:
             error = output[1]
             if tail == "java":
-                pass
+                n_list = re.search(r'.*error:(.*)', error.split('\n')[0])
+                error = n_list.group(1) if n_list else None
             else:
                 n_list = [i.start() for i in re.finditer('\n', error)]
                 error = error[n_list[-1]:].strip('\n')
@@ -175,8 +176,8 @@ def main():
                     error = raw_input("请输入报错信息：")
                 spider('segmentfual', tail, error)
                 spider('CSDN', tail, error)
-                print error
-                print tail
+                #print error
+                #print tail
                 answer_list()
                 process()
     except:
