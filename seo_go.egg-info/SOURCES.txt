@@ -1,0 +1,11 @@
+setup.py
+seo/__init__.py
+seo/__main__.py
+seo/seo.py
+seo/terminal_seo.py
+seo_go.egg-info/PKG-INFO
+seo_go.egg-info/SOURCES.txt
+seo_go.egg-info/dependency_links.txt
+seo_go.egg-info/entry_points.txt
+seo_go.egg-info/requires.txt
+seo_go.egg-info/top_level.txt

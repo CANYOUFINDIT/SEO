@@ -29,6 +29,23 @@ seo是一个Linux终端命令行工具，用于在编译文件报错时为你提
 
 - [ ] 文章/回答内容筛选排序
 
+## 用法
+
+`$ seo [filepath]`
+
+## 注意
+
+- seo 基于 python 2.7
+- 由于爬虫的不完善，爬取某些页面时可能会出错
+
+## 安装
+
+`sudo python setup.py install`
+
+使用 pip/easy_install 亦可
+
+`pip install seo_go`
+
 ## 效果图
 
 <div align=center>

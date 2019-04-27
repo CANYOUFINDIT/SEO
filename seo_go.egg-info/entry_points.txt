@@ -1,0 +1,3 @@
+[console_scripts]
+seo = seo.seo:main
+
